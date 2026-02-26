@@ -8,4 +8,3 @@ as "CaSe ONe":
 - `Se` > [Selenium](https://wikipedia.org/wiki/Selenium)
 - `O`  > [Oxygen](https://wikipedia.org/wiki/Oxygen)
 - `Ne` > [Neon](https://wikipedia.org/wiki/Neon)
-

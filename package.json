@@ -1,0 +1,61 @@
+{
+  "name": "element-symbol-format",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Paul Puhnaty",
+  "description": "Format text as chemical element symbols",
+  "keywords": [
+    "periodic",
+    "table",
+    "element",
+    "symbol",
+    "format",
+    "string",
+    "capitalize"
+  ],
+  "homepage": "https://github.com/happysnail2357/element-symbol-format#readme",
+  "bugs": {
+    "url": "https://github.com/happysnail2357/element-symbol-format/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/happysnail2357/element-symbol-format.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --check",
+    "format:write": "prettier . --write",
+    "build": "tsup",
+    "prebuild": "npm run lint",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  }
+}
