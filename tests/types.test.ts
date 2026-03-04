@@ -1,48 +1,23 @@
 import { ResultArray, ResultSegment, SegmentSymbols } from "../src/types";
 
 describe("SegmentSymbols", () => {
-  it("can hold a formatted segment", () => {
-    const obj = new SegmentSymbols("WOW", true);
+  it("can hold element symbols", () => {
+    const obj = new SegmentSymbols("WOW");
 
-    expect(obj.isFormatted).toBeTruthy();
     expect(obj.toString()).toBe("WOW");
     expect(obj.toSymbols()).toEqual(["W", "O", "W"]);
   });
 
-  it("can hold a unformatted segment", () => {
-    const obj = new SegmentSymbols("xlmj", false);
+  it("can hold element symbols with non-letters", () => {
+    const obj = new SegmentSymbols("NiCe... CaTs?");
 
-    expect(obj.isFormatted).toBeFalsy();
-    expect(obj.toString()).toBe("xlmj");
-    expect(obj.toSymbols()).toEqual(["xlmj"]);
-  });
-
-  it("can hold a formatted segment with non-letters", () => {
-    const obj = new SegmentSymbols("NiCe... CaTs?", true);
-
-    expect(obj.isFormatted).toBeTruthy();
     expect(obj.toString()).toBe("NiCe... CaTs?");
     expect(obj.toSymbols()).toEqual(["Ni", "Ce", "Ca", "Ts"]);
   });
 
-  it("can hold a unformatted segment with non-letters", () => {
-    const obj = new SegmentSymbols("john's hippo is here!", false);
+  it("can hold no symbols (empty string)", () => {
+    const obj = new SegmentSymbols("");
 
-    expect(obj.isFormatted).toBeFalsy();
-    expect(obj.toString()).toBe("john's hippo is here!");
-    expect(obj.toSymbols()).toEqual(["johnshippoishere"]);
-  });
-
-  it("can hold an empty segment", () => {
-    let obj = new SegmentSymbols("", true);
-
-    expect(obj.isFormatted).toBeTruthy();
-    expect(obj.toString()).toBe("");
-    expect(obj.toSymbols()).toEqual([]);
-
-    obj = new SegmentSymbols("", false);
-
-    expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("");
     expect(obj.toSymbols()).toEqual([]);
   });
@@ -55,16 +30,8 @@ describe("ResultSegment", () => {
     expect(obj.isFormatted).toBeTruthy();
     expect(obj.toString()).toBe("CHoCoLaTeCHIPS");
     expect(obj.toSymbols()).toEqual(["C", "Ho", "Co", "La", "Te", "C", "H", "I", "P", "S"]);
-
-    const formatted = obj.formatted();
-
-    expect(formatted.isFormatted).toBeTruthy();
-    expect(formatted.toString()).toBe("CHoCoLaTeCHIPS");
-
-    const unformatted = obj.unformatted();
-
-    expect(unformatted.isFormatted).toBeFalsy();
-    expect(unformatted.toString()).toBe("");
+    expect(obj.formatted().toString()).toBe("CHoCoLaTeCHIPS");
+    expect(obj.unformatted()).toBe("");
   });
 
   it("splits a fully unformatted segment", () => {
@@ -73,16 +40,8 @@ describe("ResultSegment", () => {
     expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("microchips");
     expect(obj.toSymbols()).toEqual(["microchips"]);
-
-    const formatted = obj.formatted();
-
-    expect(formatted.isFormatted).toBeTruthy();
-    expect(formatted.toString()).toBe("");
-
-    const unformatted = obj.unformatted();
-
-    expect(unformatted.isFormatted).toBeFalsy();
-    expect(unformatted.toString()).toBe("microchips");
+    expect(obj.formatted().toString()).toBe("");
+    expect(obj.unformatted()).toBe("microchips");
   });
 
   it("splits a partially formatted segment", () => {
@@ -91,16 +50,8 @@ describe("ResultSegment", () => {
     expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("HoUSedivided");
     expect(obj.toSymbols()).toEqual(["Ho", "U", "Se", "divided"]);
-
-    const formatted = obj.formatted();
-
-    expect(formatted.isFormatted).toBeTruthy();
-    expect(formatted.toString()).toBe("HoUSe");
-
-    const unformatted = obj.unformatted();
-
-    expect(unformatted.isFormatted).toBeFalsy();
-    expect(unformatted.toString()).toBe("divided");
+    expect(obj.formatted().toString()).toBe("HoUSe");
+    expect(obj.unformatted()).toBe("divided");
   });
 
   it("splits a fully formatted segment with non-letters", () => {
@@ -109,16 +60,8 @@ describe("ResultSegment", () => {
     expect(obj.isFormatted).toBeTruthy();
     expect(obj.toString()).toBe("C5H5N5");
     expect(obj.toSymbols()).toEqual(["C", "H", "N"]);
-
-    const formatted = obj.formatted();
-
-    expect(formatted.isFormatted).toBeTruthy();
-    expect(formatted.toString()).toBe("C5H5N5");
-
-    const unformatted = obj.unformatted();
-
-    expect(unformatted.isFormatted).toBeFalsy();
-    expect(unformatted.toString()).toBe("");
+    expect(obj.formatted().toString()).toBe("C5H5N5");
+    expect(obj.unformatted()).toBe("");
   });
 
   it("splits a fully unformatted segment with non-letters", () => {
@@ -127,16 +70,8 @@ describe("ResultSegment", () => {
     expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("may the 4th be with you!");
     expect(obj.toSymbols()).toEqual(["maythethbewithyou"]);
-
-    const formatted = obj.formatted();
-
-    expect(formatted.isFormatted).toBeTruthy();
-    expect(formatted.toString()).toBe("");
-
-    const unformatted = obj.unformatted();
-
-    expect(unformatted.isFormatted).toBeFalsy();
-    expect(unformatted.toString()).toBe("may the 4th be with you!");
+    expect(obj.formatted().toString()).toBe("");
+    expect(obj.unformatted()).toBe("may the 4th be with you!");
   });
 
   it("splits a partially formatted segment with non-letters", () => {
@@ -145,16 +80,8 @@ describe("ResultSegment", () => {
     expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("WHErE's The beef?");
     expect(obj.toSymbols()).toEqual(["W", "H", "Er", "Es", "Th", "ebeef"]);
-
-    const formatted = obj.formatted();
-
-    expect(formatted.isFormatted).toBeTruthy();
-    expect(formatted.toString()).toBe("WHErE's Th");
-
-    const unformatted = obj.unformatted();
-
-    expect(unformatted.isFormatted).toBeFalsy();
-    expect(unformatted.toString()).toBe("e beef?");
+    expect(obj.formatted().toString()).toBe("WHErE's Th");
+    expect(obj.unformatted()).toBe("e beef?");
   });
 });
 
