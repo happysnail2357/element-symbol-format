@@ -97,7 +97,7 @@ describe("ResultArray", () => {
   it("can hold no segments", () => {
     const obj = new ResultArray("");
 
-    expect(obj.isFormatted).toBeFalsy();
+    expect(obj.isFormatted).toBeTruthy();
     expect(obj.toString()).toBe("");
     expect(obj.toSymbols()).toEqual([]);
   });

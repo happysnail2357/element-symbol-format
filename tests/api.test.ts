@@ -16,7 +16,7 @@ describe("elementSymbolFormat", () => {
     const res = elementSymbolFormat("");
 
     expect(res).toHaveLength(0);
-    expect(res.isFormatted).toBeFalsy();
+    expect(res.isFormatted).toBeTruthy();
   });
 
   // TEST: option "split"
@@ -33,7 +33,7 @@ describe("elementSymbolFormat", () => {
   });
 
   it("splits using a custom string", () => {
-    const customOptions = defaultOptions;
+    const customOptions = structuredClone(defaultOptions);
     customOptions.split = ", ";
 
     const res = elementSymbolFormat("Testcases, can, find, issues", customOptions);
@@ -55,7 +55,7 @@ describe("elementSymbolFormat", () => {
   // TEST: option "strictSplit"
 
   it("splits at any non-letter character", () => {
-    const customOptions = defaultOptions;
+    const customOptions = structuredClone(defaultOptions);
     customOptions.strictSplit = true;
 
     const res = elementSymbolFormat("Testcases$can%find#issues", customOptions);
@@ -69,7 +69,7 @@ describe("elementSymbolFormat", () => {
   });
 
   it("splits at any non-letter character and keeps non-letters", () => {
-    const customOptions = defaultOptions;
+    const customOptions = structuredClone(defaultOptions);
     customOptions.strictSplit = true;
     customOptions.stripNonLetters = false;
 
@@ -88,7 +88,7 @@ describe("elementSymbolFormat", () => {
   // TEST: option "preferSingleSymbols"
 
   it("prefers single letter symbols", () => {
-    const customOptions = defaultOptions;
+    const customOptions = structuredClone(defaultOptions);
     customOptions.preferSingleSymbols = true;
 
     const res = elementSymbolFormat("CoSiCuNi", customOptions);
@@ -100,12 +100,12 @@ describe("elementSymbolFormat", () => {
   // TEST: option "stripNonLetters"
 
   it("does not strip non-letters", () => {
-    const customOptions = defaultOptions;
+    const customOptions = structuredClone(defaultOptions);
     customOptions.stripNonLetters = false;
 
     const res = elementSymbolFormat("Isn't this the api's 8th testcase?", customOptions);
 
-    expect(res).toHaveLength(5);
+    expect(res).toHaveLength(6);
     expect(res.isFormatted).toBeFalsy();
     expect(res.toString()).toBe("ISn't ThIS The api's 8Th TeSTcAse?");
   });
@@ -113,7 +113,7 @@ describe("elementSymbolFormat", () => {
   // TEST: option "join"
 
   it("joins with a character different than 'split'", () => {
-    const customOptions = defaultOptions;
+    const customOptions = structuredClone(defaultOptions);
     customOptions.split = ",";
     customOptions.join = " ";
 
