@@ -97,7 +97,7 @@ describe("ResultArray", () => {
   it("can hold no segments", () => {
     const obj = new ResultArray("");
 
-    expect(obj.isMatched).toBeFalsy();
+    expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("");
     expect(obj.toSymbols()).toEqual([]);
   });
@@ -105,7 +105,7 @@ describe("ResultArray", () => {
   it("can hold formatted segments", () => {
     const obj = new ResultArray(" ", wowSegment, thatSegment, isSegement, chocolateSegment);
 
-    expect(obj.isMatched).toBeTruthy();
+    expect(obj.isFormatted).toBeTruthy();
     expect(obj.toString()).toBe("WOW! ThAt IS CHoCoLaTe");
     expect(obj.toSymbols()).toEqual([
       "W",
@@ -129,7 +129,7 @@ describe("ResultArray", () => {
   it("can hold unformatted segments", () => {
     const obj = new ResultArray(" ", goodSegement, dogSegment);
 
-    expect(obj.isMatched).toBeFalsy();
+    expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("good dog");
     expect(obj.toSymbols()).toEqual(["good", " ", "dog"]);
   });
@@ -137,23 +137,36 @@ describe("ResultArray", () => {
   it("can hold both formatted and unformatted segments", () => {
     const obj = new ResultArray(" ", thatSegment, dogSegment, isSegement, coolSegement);
 
-    expect(obj.isMatched).toBeFalsy();
+    expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("ThAt dog IS COOl");
-    expect(obj.toSymbols()).toEqual(["Th", "At", " ", "dog", "I", "S", " ", "C", "O", "O", "l"]);
+    expect(obj.toSymbols()).toEqual([
+      "Th",
+      "At",
+      " ",
+      "dog",
+      " ",
+      "I",
+      "S",
+      " ",
+      "C",
+      "O",
+      "O",
+      "l",
+    ]);
   });
 
   it("can join segments using a string", () => {
     const obj = new ResultArray(" *** ", coolSegement, chocolateSegment);
 
-    expect(obj.isMatched).toBeTruthy();
+    expect(obj.isFormatted).toBeFalsy();
     expect(obj.toString()).toBe("COOl *** CHoCoLaTe");
     expect(obj.toSymbols()).toEqual(["C", "O", "O", "l", " *** ", "C", "Ho", "Co", "La", "Te"]);
   });
 
   it("can join segments using an empty string", () => {
-    const obj = new ResultArray("", wowSegement, thatSegment);
+    const obj = new ResultArray("", wowSegment, thatSegment);
 
-    expect(obj.isMatched).toBeTruthy();
+    expect(obj.isFormatted).toBeTruthy();
     expect(obj.toString()).toBe("WOW!ThAt");
     expect(obj.toSymbols()).toEqual(["W", "O", "W", "", "Th", "At"]);
   });
