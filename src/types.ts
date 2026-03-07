@@ -49,7 +49,7 @@ export class ResultSegment implements interfaces.PartiallyFormattable {
   }
 
   get formatted(): SegmentSymbols {
-    const formattedPart = this.value.substr(0, this.firstMiss);
+    const formattedPart = this.value.slice(0, this.firstMiss);
 
     return new SegmentSymbols(formattedPart, true);
   }
@@ -58,7 +58,7 @@ export class ResultSegment implements interfaces.PartiallyFormattable {
     if (this.isFormatted) {
       return "";
     } else {
-      return this.value.substr(this.firstMiss);
+      return this.value.slice(this.firstMiss);
     }
   }
 
