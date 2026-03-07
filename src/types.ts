@@ -2,6 +2,7 @@
 // Copyright © 2026 Paul Puhnaty
 
 import * as interfaces from "./interfaces";
+import { isLetter, isLowerCase, isUpperCase } from "./helpers";
 
 export class SegmentSymbols implements interfaces.SymbolDecomposable {
   private value: string;
@@ -17,13 +18,13 @@ export class SegmentSymbols implements interfaces.SymbolDecomposable {
   toSymbols(): string[] {
     const symbols: string[] = [];
 
-    const chars = this.value.split("").filter((char: string): boolean => char.match(/[A-Za-z]/));
+    const chars = this.value.split("").filter((char) => isLetter(char));
 
     for (let i = 0; i < chars.length; i++) {
-      if (chars[i].match(/[A-Z]/)) {
+      if (isUpperCase(chars[i])) {
         const iNext = i + 1;
 
-        if (iNext < chars.length && chars[iNext].match(/[a-z]/)) {
+        if (iNext < chars.length && isLowerCase(chars[iNext])) {
           symbols.push(chars[i] + chars[iNext]);
         } else {
           symbols.push(chars[i]);
@@ -71,7 +72,7 @@ export class ResultSegment implements interfaces.PartiallyFormattable {
     if (!this.isFormatted) {
       const stripped = this.unformatted()
         .split("")
-        .filter((char: string): boolean => char.match(/[A-Za-z]/))
+        .filter((char) => isLetter(char))
         .join("");
 
       symbols.push(stripped);
@@ -83,14 +84,15 @@ export class ResultSegment implements interfaces.PartiallyFormattable {
 
 export class ResultArray extends Array<ResultSegment> implements interfaces.FormattedResult {
   readonly isFormatted: boolean;
-  private join: string;
+  private joinStr: string;
 
   constructor(join: string, ...segments: ResultSegment[]) {
     super(...segments);
 
-    this.isFormatted = segments.length > 0; // Assume true if there is at least one segment
-    this.join = join;
+    this.isFormatted = true; // Assume true
+    this.joinStr = join;
 
+    // Check for unformatted segments
     for (const segment of segments) {
       if (!segment.isFormatted) {
         this.isFormatted = false;
@@ -106,7 +108,7 @@ export class ResultArray extends Array<ResultSegment> implements interfaces.Form
       segments.push(segment.toString());
     }
 
-    return segments.join(this.join);
+    return segments.join(this.joinStr);
   }
 
   toSymbols(): string[] {
@@ -118,7 +120,7 @@ export class ResultArray extends Array<ResultSegment> implements interfaces.Form
       symbols.push(...segmentSymbols);
 
       if (index != this.length - 1) {
-        symbols.push(this.join);
+        symbols.push(this.joinStr);
       }
     }, this);
 
