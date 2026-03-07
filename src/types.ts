@@ -48,13 +48,13 @@ export class ResultSegment implements interfaces.PartiallyFormattable {
     this.isFormatted = firstMiss >= value.length;
   }
 
-  formatted(): SegmentSymbols {
+  get formatted(): SegmentSymbols {
     const formattedPart = this.value.substr(0, this.firstMiss);
 
     return new SegmentSymbols(formattedPart, true);
   }
 
-  unformatted(): string {
+  get unformatted(): string {
     if (this.isFormatted) {
       return "";
     } else {
@@ -67,10 +67,10 @@ export class ResultSegment implements interfaces.PartiallyFormattable {
   }
 
   toSymbols(): string[] {
-    const symbols = this.formatted().toSymbols();
+    const symbols = this.formatted.toSymbols();
 
     if (!this.isFormatted) {
-      const stripped = this.unformatted()
+      const stripped = this.unformatted
         .split("")
         .filter((char) => isLetter(char))
         .join("");

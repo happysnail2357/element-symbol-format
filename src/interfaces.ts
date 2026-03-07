@@ -11,8 +11,8 @@ export interface SymbolDecomposable {
 }
 
 export interface PartiallyFormattable extends SymbolDecomposable, FormattedCheckable {
-  formatted(): SymbolDecomposable;
-  unformatted(): string;
+  get formatted(): SymbolDecomposable;
+  get unformatted(): string;
 }
 
 export interface FormattedResult
