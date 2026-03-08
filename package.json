@@ -46,7 +46,7 @@
     "format:write": "prettier . --write",
     "build": "tsup",
     "prebuild": "npm run lint",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
